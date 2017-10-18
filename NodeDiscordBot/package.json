@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "node-discord-bot",
   "version": "0.0.0",
   "description": "NodeDiscordBot",
@@ -7,6 +7,8 @@
     "name": "Олег"
   },
   "dependencies": {
-    "discord.js": "^11.2.1"
+    "discord.js": "^11.2.1",
+    "ffmpeg-binaries": "^3.2.2-3",
+    "opusscript": "0.0.4"
   }
 }

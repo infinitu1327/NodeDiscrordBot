@@ -2,6 +2,7 @@
 
 const discord = require("discord.js");
 const client = new discord.Client();
+const url = require("url");
 
 let playlist = [];
 let dispatcher;
@@ -53,37 +54,49 @@ let playNextSong = (msg) => {
     playSong(msg);
 };
 
-client.login("token");
-
-console.log("Bot started");
-
 client.on("message",
     msg => {
         switch (msg.content) {
-        case "!resume":
-            dispatcher.resume();
-            msg.reply("Resumed!");
-            break;
-        case "!pause":
-            dispatcher.pause();
-            msg.reply("Song paused. Write !resume to resume.");
-            break;
-        case "!play":
-            if (!getVoiceChannel(msg)) {
-                joinVoiceChannel(msg);
-            }
-            playSong(msg);
-            break;
-        case "!skip":
-            playNextSong(msg);
-            break;
-        default:
-            if (msg.attachments && msg.cleanContent === "@jmihibot") {
-                const attachment = msg.attachments.first();
-                playlist.push(attachment.url);
+            case "!resume":
+                dispatcher.resume();
+                msg.reply("Resumed!");
+                break;
+            case "!pause":
+                dispatcher.pause();
+                msg.reply("Song paused. Write !resume to resume.");
+                break;
+            case "!play":
+                if (!getVoiceChannel(msg)) {
+                    joinVoiceChannel(msg);
+                }
+                playSong(msg);
+                break;
+            case "!skip":
+                playNextSong(msg);
+                break;
+            default:
+                if (msg.cleanContent.startsWith("@jmihibot")) {
+                    if (msg.attachments.size !== 0) {
+                        const attachment = msg.attachments.first();
+                        playlist.push(attachment.url);
 
-                msg.reply("Song successfully added");
-            }
-            break;
+                        msg.reply("Song successfully added");
+                    }
+                    else {
+                        try {
+                            let messageUrl = msg.cleanContent.split(" ")[1];
+                            let tryParse = url.parse(messageUrl);
+                            playlist.push(messageUrl);
+                            msg.reply("Song successfully added");
+                        } catch (e) {
+                            msg.reply("Not a URL");
+                        }
+                    }
+                }
+                break;
         }
     });
+
+client.login("your_token");
+
+console.log("Bot started");
