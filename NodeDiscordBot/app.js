@@ -3,6 +3,7 @@
 const discord = require("discord.js");
 const client = new discord.Client();
 const url = require("url");
+const config = require("./config");
 
 let playlist = [];
 let dispatcher;
@@ -97,6 +98,6 @@ client.on("message",
         }
     });
 
-client.login("your_token");
+client.login(config.token);
 
 console.log("Bot started");
