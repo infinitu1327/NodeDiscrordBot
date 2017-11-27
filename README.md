@@ -1,5 +1,5 @@
 # NodeDiscrordBot
-Simple music bot for discrod, written in node js
+Simple music bot for discord, written in node js
 
 Using:
 
